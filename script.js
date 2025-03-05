@@ -1,10 +1,11 @@
 const canvas = document.getElementById('jogo2D')
 const ctx = canvas.getContext('2d')
-
+const gravidade = 1
 document.addEventListener('keypress', (e) => {
     if(e.code == 'Space'){
         personagem.velocidY =  15
         console.log("PULOU")
+        personagem.pulando = true
         
     
     }})
@@ -15,7 +16,7 @@ const personagem ={
     altura: 50,
     largura: 50,
     velocidY: 0,
-    pulando: true
+    pulando: false
 }
 
 function desenharPersonagem(){
@@ -24,8 +25,13 @@ function desenharPersonagem(){
 }
 function atualizarPersonagem(){
     if(personagem.pulando == true){
+        personagem.velocidY -= gravidade
         personagem.y -= personagem.velocidY
-       
+        if(personagem.y >= canvas.height-50){
+            personagem.velocidY = 0
+            personagem.pulando = false
+            personagem.y = canvas.height-50  
+        }
     }
 }
 
