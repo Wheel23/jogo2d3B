@@ -2,8 +2,8 @@ const canvas = document.getElementById('jogo2D')
 const ctx = canvas.getContext('2d')
 const gravidade = 1
 document.addEventListener('keypress', (e) => {
-    if(e.code == 'Space'){
-        personagem.velocidY =  15
+    if(e.code == 'Space' && personagem.pulando == false){
+        personagem.velocidY =  20
         console.log("PULOU")
         personagem.pulando = true
         
