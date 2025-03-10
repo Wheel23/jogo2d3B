@@ -3,6 +3,8 @@ const ctx = canvas.getContext('2d')
 const gravidade = 1
 let iniciajogo = false
 let colisaoAconteceu = false
+let imagemPerso = new Image();
+imagemPerso.src= 'images.jpg';
 document.addEventListener('keypress', (e) => {
     if(e.code == 'Space' && personagem.pulando == false){
         personagem.velocidY =  20
@@ -22,12 +24,13 @@ const personagem ={
     altura: 50,
     largura: 50,
     velocidY: 0,
-    pulando: false
-}
+    pulando: false,
+} 
 
 function desenharPersonagem(){
-    ctx.fillStyle = 'black'
-    ctx.fillRect(personagem.x, personagem.y, personagem.altura,personagem.largura)
+    //ctx.fillStyle = 'black'
+    // ctx.fillRect(personagem.x, personagem.y, personagem.altura,personagem.largura)
+    ctx.drawImage(imagemPerso,personagem.x,personagem.y,personagem.largura,personagem.altura)
 }
 function atualizarPersonagem(){
     if(personagem.pulando == true){
@@ -71,7 +74,6 @@ function AtualizaObstaculo(){
 function GameOver(){
     personagem.velocidY = 0
     obstaculo.velocidadex = 0
-    console.log('parou')
     ctx.fillStyle = 'red'
     ctx.fillRect((canvas.width/2) -200,(canvas.height/2)-50, 400, 100)
     ctx.fillStyle='black'
