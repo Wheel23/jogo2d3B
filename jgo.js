@@ -1,6 +1,7 @@
 const canvas = document.getElementById('jogo2D');
 const ctx = canvas.getContext('2d');
 let iniciajogo = false
+let colisaoAconteceu = false
 
 document.addEventListener('keypress', (e) => {
     if (e.code == 'Space' && personagem.pulando == false){
@@ -38,10 +39,16 @@ class Entidade {
 class Personagem extends Entidade {
     #pulando
     #velocidY
+    #largura
+    #altura
+    #velocidadex
     constructor(x, y, w, h) {
         super(x, y, w, h)
         this.#pulando = false
         this.#velocidY = 0
+        this.altura = 100
+        this.#largura = 50
+        this.#velocidadex = 0
     }
     saltar = function(){
          personagem.#velocidY = 15
@@ -64,6 +71,24 @@ class Personagem extends Entidade {
             }
         }
     }
+    Colisao(Obstaculo){
+        if(
+            this.x < Obstaculo.x + Obstaculo.#largura && 
+            this.x + this.#largura > Obstaculo.x && 
+            this.y < Obstaculo.y + Obstaculo.#altura &&
+            this.y + this.#altura > Obstaculo.y
+        ){
+            this.#velocidY = 0
+            this.#velocidadex = 0
+            ctx.fillStyle = 'red'
+            ctx.fillRect((canvas.width/2) -200,(canvas.height/2)-50, 400, 100)
+            ctx.fillStyle='black'
+            ctx.font = '50px Arial'
+            ctx.fillText('GAME OVER',(canvas.width/2) -150,(canvas.height/2)-50, 400, 100 )
+          
+        }
+    }
+    
 }
 
 
@@ -102,7 +127,7 @@ function loop() {
         personagem.atualizarPersonagem()
         Obstaculo.AtualizaObstaculo()
         Obstaculo.desenhar(ctx, 'red')
-        //Colisao()
+        personagem.Colisao(Obstaculo)
         requestAnimationFrame(loop)
     }
 }
