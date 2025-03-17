@@ -28,9 +28,10 @@ class Entidade {
         return this.#gravidade
     }
 
-    desenhar = function (ctx, cor) {
-        ctx.fillStyle = cor
-        ctx.fillRect(this.x, this.y, this.w, this.h)
+    desenhar = function (ctx,) {
+        //ctx.fillStyle = cor
+        //ctx.fillRect(this.x, this.y, this.w, this.h)
+        ctx.drawImage(this.image, this.x, this.y,this.w,this.h)
     }
 
 
@@ -47,6 +48,8 @@ class Personagem extends Entidade {
         this.#velocidY = 0
         this.#h = 100
         this.#w = 50
+        this.image = new Image(this.w,this.h)
+        this.image.src = "marioimage.gif"
         
     }
     saltar = function(){
@@ -65,7 +68,7 @@ class Personagem extends Entidade {
         ctx.font = '50px Arial'
         ctx.fillText('GAME OVER',(canvas.width/2) -150,(canvas.height/2)-50, 400, 100 )
     }
-
+    
     
 
     get pulando(){
@@ -141,7 +144,7 @@ function loop() {
         personagem.desenhar(ctx, 'black')
         personagem.atualizarPersonagem()
         Obstaculo.AtualizaObstaculo()
-        Obstaculo.desenhar(ctx, 'red')
+        Obstaculo.desenhar(ctx)
         personagem.Colisao(Obstaculo)
         requestAnimationFrame(loop)
         
