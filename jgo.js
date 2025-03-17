@@ -39,16 +39,15 @@ class Entidade {
 class Personagem extends Entidade {
     #pulando
     #velocidY
-    #largura
-    #altura
-    #velocidadex
+    #w
+    #h
     constructor(x, y, w, h) {
         super(x, y, w, h)
         this.#pulando = false
         this.#velocidY = 0
-        this.altura = 100
-        this.#largura = 50
-        this.#velocidadex = 0
+        this.#h = 100
+        this.#w = 50
+        
     }
     saltar = function(){
          personagem.#velocidY = 15
@@ -57,6 +56,18 @@ class Personagem extends Entidade {
     
         
     }
+    houveColisao(Obstaculo){
+        personagem.#velocidY = 0
+        Obstaculo.velocidade = 0
+        ctx.fillStyle = 'red'
+        ctx.fillRect((canvas.width/2) -200,(canvas.height/2)-50, 400, 100)
+        ctx.fillStyle='black'
+        ctx.font = '50px Arial'
+        ctx.fillText('GAME OVER',(canvas.width/2) -150,(canvas.height/2)-50, 400, 100 )
+    }
+
+    
+
     get pulando(){
         return this.#pulando
     }
@@ -72,19 +83,15 @@ class Personagem extends Entidade {
         }
     }
     Colisao(Obstaculo){
+
         if(
-            this.x < Obstaculo.x + Obstaculo.#largura && 
-            this.x + this.#largura > Obstaculo.x && 
-            this.y < Obstaculo.y + Obstaculo.#altura &&
-            this.y + this.#altura > Obstaculo.y
+            this.x < Obstaculo.x + Obstaculo.w && 
+            this.x + this.w > Obstaculo.x && 
+            this.y < Obstaculo.y + Obstaculo.h &&
+            this.y + this.h > Obstaculo.y
         ){
-            this.#velocidY = 0
-            this.#velocidadex = 0
-            ctx.fillStyle = 'red'
-            ctx.fillRect((canvas.width/2) -200,(canvas.height/2)-50, 400, 100)
-            ctx.fillStyle='black'
-            ctx.font = '50px Arial'
-            ctx.fillText('GAME OVER',(canvas.width/2) -150,(canvas.height/2)-50, 400, 100 )
+           
+           this.houveColisao(Obstaculo)
           
         }
     }
@@ -111,7 +118,15 @@ class obstaculo extends Entidade {
             this.y = canvas.height - naltura
         }
     }
+    get velocidade(){
+        return this.#velocidadex
+    }
 
+    set velocidade(valor){
+        if(valor >= 0){
+        return this.#velocidadex = valor
+    }
+    }
 }
 
 const Obstaculo = new obstaculo(canvas.width-50, canvas.width-100, 50, 100,5)
@@ -129,6 +144,7 @@ function loop() {
         Obstaculo.desenhar(ctx, 'red')
         personagem.Colisao(Obstaculo)
         requestAnimationFrame(loop)
+        
     }
 }
 
